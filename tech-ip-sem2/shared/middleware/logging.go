@@ -1,9 +1,10 @@
 package middleware
 
 import (
-	"log"
 	"net/http"
 	"time"
+
+	"github.com/sun1tar/MIREA-TIP-Practice-18/tech-ip-sem2/shared/logger"
 )
 
 type responseWriter struct {
@@ -16,12 +17,33 @@ func (rw *responseWriter) WriteHeader(code int) {
 	rw.ResponseWriter.WriteHeader(code)
 }
 
+// LoggingMiddleware логирует каждый HTTP запрос в структурированном формате
 func LoggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
 		wrapped := &responseWriter{ResponseWriter: w, statusCode: http.StatusOK}
-		next.ServeHTTP(wrapped, r)
+
+		// Получаем request-id из контекста
 		requestID := GetRequestID(r.Context())
-		log.Printf("[%s] %s %s %d %v", requestID, r.Method, r.URL.Path, wrapped.statusCode, time.Since(start))
+
+		// Создаём entry с request-id
+		logEntry := logger.WithRequestID(logger.Logger, requestID)
+
+		// Логируем начало запроса (опционально, на DEBUG уровне)
+		logEntry.Debugf("request started: %s %s", r.Method, r.URL.Path)
+
+		// Обрабатываем запрос
+		next.ServeHTTP(wrapped, r)
+
+		// Логируем завершение запроса
+		duration := time.Since(start)
+		logEntry.WithFields(logrus.Fields{
+			"method":      r.Method,
+			"path":        r.URL.Path,
+			"status":      wrapped.statusCode,
+			"duration_ms": duration.Milliseconds(),
+			"remote_ip":   r.RemoteAddr,
+			"user_agent":  r.UserAgent(),
+		}).Info("request completed")
 	})
 }

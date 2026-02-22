@@ -2,18 +2,21 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"time"
 
-	"github.com/sun1tar/MIREA-TIP-Practice-19/tech-ip-sem2/shared/middleware"
-	"github.com/sun1tar/MIREA-TIP-Practice-19/tech-ip-sem2/tasks/internal/client/authclient"
-	handlers "github.com/sun1tar/MIREA-TIP-Practice-19/tech-ip-sem2/tasks/internal/http"
-	"github.com/sun1tar/MIREA-TIP-Practice-19/tech-ip-sem2/tasks/internal/service"
+	"github.com/sun1tar/MIREA-TIP-Practice-18/tech-ip-sem2/shared/logger"
+	"github.com/sun1tar/MIREA-TIP-Practice-18/tech-ip-sem2/shared/middleware"
+	"github.com/sun1tar/MIREA-TIP-Practice-18/tech-ip-sem2/tasks/internal/client/authclient"
+	handlers "github.com/sun1tar/MIREA-TIP-Practice-18/tech-ip-sem2/tasks/internal/http"
+	"github.com/sun1tar/MIREA-TIP-Practice-18/tech-ip-sem2/tasks/internal/service"
 )
 
 func main() {
+	// Инициализация структурированного логгера
+	logrusLogger := logger.Init("tasks")
+
 	tasksPort := os.Getenv("TASKS_PORT")
 	if tasksPort == "" {
 		tasksPort = "8082"
@@ -23,14 +26,14 @@ func main() {
 		authGrpcAddr = "localhost:50051"
 	}
 
-	authClient, err := authclient.NewClient(authGrpcAddr, 2*time.Second)
+	authClient, err := authclient.NewClient(authGrpcAddr, 2*time.Second, logrusLogger)
 	if err != nil {
-		log.Fatalf("Failed to create auth client: %v", err)
+		logrusLogger.WithError(err).Fatal("Failed to create auth client")
 	}
 	defer authClient.Close()
 
 	taskService := service.NewTaskService()
-	taskHandler := handlers.NewTaskHandler(taskService, authClient)
+	taskHandler := handlers.NewTaskHandler(taskService, authClient, logrusLogger)
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("POST /v1/tasks", taskHandler.CreateTask)
@@ -39,11 +42,12 @@ func main() {
 	mux.HandleFunc("PATCH /v1/tasks/{id}", taskHandler.UpdateTask)
 	mux.HandleFunc("DELETE /v1/tasks/{id}", taskHandler.DeleteTask)
 
+	// RequestIDMiddleware должен идти первым
 	handler := middleware.RequestIDMiddleware(middleware.LoggingMiddleware(mux))
 
 	addr := fmt.Sprintf(":%s", tasksPort)
-	log.Printf("Tasks service starting on %s", addr)
+	logrusLogger.WithField("port", tasksPort).Info("Tasks service starting")
 	if err := http.ListenAndServe(addr, handler); err != nil {
-		log.Fatal(err)
+		logrusLogger.WithError(err).Fatal("server failed")
 	}
 }
