@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/sirupsen/logrus"
-	"github.com/sun1tar/MIREA-TIP-Practice-18/tech-ip-sem2/auth/internal/service"
-	pb "github.com/sun1tar/MIREA-TIP-Practice-18/tech-ip-sem2/proto/auth"
+	"github.com/sun1tar/MIREA-TIP-Practice-19/tech-ip-sem2/auth/internal/service"
+	pb "github.com/sun1tar/MIREA-TIP-Practice-19/tech-ip-sem2/proto/auth"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"

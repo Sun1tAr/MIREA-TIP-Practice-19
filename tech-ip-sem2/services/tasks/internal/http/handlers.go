@@ -6,9 +6,9 @@ import (
 	"strings"
 
 	"github.com/sirupsen/logrus"
-	"github.com/sun1tar/MIREA-TIP-Practice-18/tech-ip-sem2/shared/middleware"
-	"github.com/sun1tar/MIREA-TIP-Practice-18/tech-ip-sem2/tasks/internal/client/authclient"
-	"github.com/sun1tar/MIREA-TIP-Practice-18/tech-ip-sem2/tasks/internal/service"
+	"github.com/sun1tar/MIREA-TIP-Practice-19/tech-ip-sem2/shared/middleware"
+	"github.com/sun1tar/MIREA-TIP-Practice-19/tech-ip-sem2/tasks/internal/client/authclient"
+	"github.com/sun1tar/MIREA-TIP-Practice-19/tech-ip-sem2/tasks/internal/service"
 )
 
 type TaskHandler struct {

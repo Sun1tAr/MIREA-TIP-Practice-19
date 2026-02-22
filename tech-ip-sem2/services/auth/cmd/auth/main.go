@@ -10,9 +10,9 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	grp "github.com/sun1tar/MIREA-TIP-Practice-18/tech-ip-sem2/auth/internal/grpc"
-	pb "github.com/sun1tar/MIREA-TIP-Practice-18/tech-ip-sem2/proto/auth"
-	"github.com/sun1tar/MIREA-TIP-Practice-18/tech-ip-sem2/shared/logger"
+	grp "github.com/sun1tar/MIREA-TIP-Practice-19/tech-ip-sem2/auth/internal/grpc"
+	pb "github.com/sun1tar/MIREA-TIP-Practice-19/tech-ip-sem2/proto/auth"
+	"github.com/sun1tar/MIREA-TIP-Practice-19/tech-ip-sem2/shared/logger"
 )
 
 func main() {

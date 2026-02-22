@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/sirupsen/logrus"
-	pb "github.com/sun1tar/MIREA-TIP-Practice-18/tech-ip-sem2/proto/auth"
-	"github.com/sun1tar/MIREA-TIP-Practice-18/tech-ip-sem2/shared/middleware"
+	pb "github.com/sun1tar/MIREA-TIP-Practice-19/tech-ip-sem2/proto/auth"
+	"github.com/sun1tar/MIREA-TIP-Practice-19/tech-ip-sem2/shared/middleware"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"

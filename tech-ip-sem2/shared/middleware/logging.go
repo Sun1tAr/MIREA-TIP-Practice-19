@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/sun1tar/MIREA-TIP-Practice-18/tech-ip-sem2/shared/logger"
+	"github.com/sun1tar/MIREA-TIP-Practice-19/tech-ip-sem2/shared/logger"
 )
 
 type responseWriter struct {
