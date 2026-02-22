@@ -3,7 +3,9 @@ module github.com/sun1tar/MIREA-TIP-Practice-19/tech-ip-sem2/auth
 go 1.22
 
 require (
+	github.com/sirupsen/logrus v1.9.4
 	github.com/sun1tar/MIREA-TIP-Practice-19/tech-ip-sem2/proto v0.0.0
+	github.com/sun1tar/MIREA-TIP-Practice-19/tech-ip-sem2/shared v0.0.0-00010101000000-000000000000
 	google.golang.org/grpc v1.64.0
 )
 

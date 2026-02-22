@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/sirupsen/logrus"
 	"github.com/sun1tar/MIREA-TIP-Practice-19/tech-ip-sem2/shared/logger"
 )
 
